@@ -1,0 +1,58 @@
+.title {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+.outer {
+  width: 800px;
+  height: 400px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: 2px rgba(51, 51, 238, 0.4) solid;
+  box-shadow: 10px 10px 10px rgba(99, 99, 194, 0.1);
+  margin: 50px;
+  padding: 10px;
+}
+.modalBtn {
+  cursor: pointer;
+  margin: 5px 10px;
+  padding: 5px;
+  font-size: 20px;
+  color: white;
+  background-color: tomato;
+  border-radius: 5px;
+  border-bottom: 5px solid rgba(160, 83, 69, 0.2);
+  transition: transform 0.1s ease;
+}
+.modalBtn:hover {
+  transform: translateY(1px);
+  border-bottom: 4px solid rgba(160, 83, 69, 0.2);
+}
+.modalBtn:active {
+  transform: translateY(5px);
+  border-bottom: 0px solid rgba(160, 83, 69, 0.2);
+  transition: transform 0.3s ease;
+}
+.modalOuter {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.modal {
+  width: 400px;
+  height: 150px;
+  background-color: white;
+  border-radius: 10px;
+  text-align: center;
+  padding: 10px;
+}
+.modalClose {
+  cursor: pointer;
+}

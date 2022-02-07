@@ -1,0 +1,60 @@
+.title {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+.outer {
+  width: 800px;
+  height: 400px;
+  position: relative;
+  border-radius: 10px;
+  border: 2px rgba(51, 51, 238, 0.4) solid;
+  box-shadow: 10px 10px 10px rgba(99, 99, 194, 0.1);
+  margin: 50px;
+  padding: 10px;
+}
+.InputContainer {
+  display: flex;
+  padding: 1rem;
+  border: 1px solid rgb(223, 225, 229);
+  border-radius: 1rem;
+  z-index: 3;
+  box-shadow: 0;
+  width: 100%;
+  margin-top: 9rem;
+}
+.InputContainer:focus-within {
+  box-shadow: 0 4px 6px rgb(32 33 36 / 28%);
+}
+.deleteBtn {
+  cursor: pointer;
+  margin: auto;
+}
+.dropDownContainer {
+  background-color: #ffffff;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  list-style-type: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 0px;
+  margin-top: -17px;
+  padding: 0.5rem 0;
+  border: 1px solid rgb(223, 225, 229);
+  border-radius: 0 0 1rem 1rem;
+  box-shadow: 0 4px 6px rgb(32 33 36 / 28%);
+  z-index: 4;
+  width: 100%;
+}
+.dropDownContainer li {
+  padding: 0 1rem;
+}
+.dropDownContainer li:hover {
+  background-color: lightgray;
+}
+.dropDownContainer .selectedOption {
+  background-color: lightgray;
+}

@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Jua", sans-serif;
+  font-size: 20px;
+}
+button {
+  border: none;
+}
+input {
+  flex: 1;
+  border: none;
+  height: 46px;
+  font-size: 14px;
+  padding: 4px 0 0 0;
+  font-family: "Jua", sans-serif;
+  font-size: 20px;
+}
+input:focus {
+  outline: transparent;
+}
+ul {
+  list-style: none;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

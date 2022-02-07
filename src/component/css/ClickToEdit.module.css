@@ -1,0 +1,52 @@
+.title {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+.outer {
+  width: 800px;
+  height: 400px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: 2px rgba(51, 51, 238, 0.4) solid;
+  box-shadow: 10px 10px 10px rgba(99, 99, 194, 0.1);
+  margin: 50px;
+  padding: 10px;
+}
+.inputBox {
+  text-align: center;
+  display: inline-block;
+  min-width: 200px;
+  height: 35px;
+  line-height: 35px;
+  border: 1px #bbb dashed;
+  border-radius: 10px;
+  margin-left: 1rem;
+  cursor: text;
+}
+.inputBox.focused {
+  border: 1px solid #4000c7;
+}
+.inputEdit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: inline-block;
+  width: 150px;
+  height: 30px;
+}
+.inputView {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin: 1rem;
+}
+.view {
+  margin-top: 0.5rem;
+}

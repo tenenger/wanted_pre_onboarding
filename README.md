@@ -259,59 +259,212 @@ function Tab() {
 <br>
 
 ## AutoComplete.js
-<p>MyInput 컴포넌트를 생성하여 ClickToEdit 컴포넌트의 자식 컴포넌트로 사용한다.</p>
-<p> value를 인수로 받는데, 이는 name값 또는 </p>
+<p>자동완성의 데이터를 배열로 선언합니다.</p>
 
 ```
-className={`${
-            idx === currentIdx
-              ? `${TabStyle.menu} ${TabStyle.focused}`
-              : `${TabStyle.menu}`
-          }`}
+const AutoCompleteList = [
+  "antique",
+  "apple",
+  "banana",
+  "rustic",
+  "vinyl",
+  "vintage",
+  "refurbished",
+  "신품",
+  "빈티지",
+  "중고A급",
+  "중고B급",
+  "골동품",
+];
 ```
 
-<p></p>
-<p></p>
+<br><p>dropDown 컴포넌트를 생성하여 AutoComplete 컴포넌트의 자식 컴포넌트로 사용합니다</p>
+<p>자동완성 컴포넌트는 dropDownOptions은 데이터(AutoCompleteList), autoCompleteClick은 autoCompleteClick 메서드, selectedOptionIdx는 자동완성을 클릭했을때 선택한 요소의 인덱스를 인수로 받습니다.</p>
+<p>자동완성 요소가 클릭되었을 경우에는 해당 데이터(item)을 autoCompleteClick메서드를 통해, input값은 item값을 가지게 됩니다.</p>
 
 ```
-className={`${
-            idx === currentIdx
-              ? `${TabStyle.menu} ${TabStyle.focused}`
-              : `${TabStyle.menu}`
-          }`}
+function DropDown({ dropDownOptions, autoCompleteClick, selectedOptionIdx }) {
+  return (
+    <ul className={AutoCompleteStyle.dropDownContainer}>
+      {dropDownOptions.map((item, idx) => (
+        <li
+          key={idx}
+          onClick={() => autoCompleteClick(item)}
+          className={
+            selectedOptionIdx === idx && `${AutoCompleteStyle.selectedOption}`
+          }
+        >
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}
 ```
 
-<p></p>
-<p></p>
+<br><p>input값이 존재하는지 유무를 확인 할 수 있는 hasText변수와 hasText 값을 변경할 수 있는 함수를 선언합니다. </p>
+<p>input값을 받는 inputValue변수와 inputValue값을 변경할 수 있는 함수를 선언합니다.</p>
+<p>AutoCompleteList(자동완성 데이터)를 받는 dropDownOptions변수와 dropDownOptions값을 변경할 수 있는 함수를 선언합니다.</p>
+<p>키보드를 이용해 자동완성을 선택할 수 있는 selectedOptionIdx변수와 selectedOptionIdx값을 변경할 수 있는 함수를 선언합니다. 초기값으로 -1을 부여한 이유는, 모든 데이터는 인덱스가 0번부터 시작하기 때문에 -1로 지정하게 되었습니다.</p>
 
 ```
-className={`${
-            idx === currentIdx
-              ? `${TabStyle.menu} ${TabStyle.focused}`
-              : `${TabStyle.menu}`
-          }`}
+function AutoComplete() {
+  const [hasText, setHasText] = useState(false); //input값의 유무 상태
+  const [inputValue, setInputValue] = useState(""); //input값의 상태
+  const [dropDownOptions, setdropDownOptions] = useState(AutoCompleteList);
+  const [selectedOptionIdx, setSelectedOptionIdx] = useState(-1); //키보드로 option 선택할때 필요한 selectedOption상태
+  ...
+}
 ```
 
-<p></p>
-<p></p>
+<br><p>input값(inputValue)이 아무것도 입력이 안되어 있는 상태(빈문자열)이라면 hasText값을 false를 주고, setdropDownOptions([])을 통해 자동완성 리스트가 UI에 표시되는 것과 화살표키보드로 자동완성을 선택하는 것을 방지합니다.</p>
+<p>input값(inputValue)이 입력값이 있는 상태라면 hasText값을 true를 주고, setdropDownOptions함수를 통해 inputValue이 포함된 자동완성리스트들만 dropDownOptions에 배열로 할당합니다.</p>
 
 ```
-className={`${
-            idx === currentIdx
-              ? `${TabStyle.menu} ${TabStyle.focused}`
-              : `${TabStyle.menu}`
-          }`}
+function AutoComplete() {
+  ...
+  useEffect(() => {
+      if (inputValue === "") {
+        setHasText(false);
+        setdropDownOptions([]);
+      } else if (inputValue !== "") {
+        setHasText(true);
+        setdropDownOptions(
+          AutoCompleteList.filter((element) => {
+            return element.includes(inputValue);
+          })
+        );
+      }
+    }, [inputValue]);
+  ...
+}
 ```
 
-<p></p>
-<p></p>
+<br><p>input값이 입력되는 경우 inputChange메소드가 실행이 되는데, 입력된 값(event.target.value)을 setInputValue함수를 이용해 값을 전달하고, setHasText 함수를 이용해 true값을 전달합니다.</p>
 
 ```
-className={`${
-            idx === currentIdx
-              ? `${TabStyle.menu} ${TabStyle.focused}`
-              : `${TabStyle.menu}`
-          }`}
+function AutoComplete() {
+  ...
+  const inputChange = (event) => {
+      setInputValue(event.target.value);
+      setHasText(true);
+    };
+  ...
+}
+```
+
+<br><p>클릭되어 선택된 자동완성 요소의 값을 setInputValue함수를 이용해 input값에 넣어주고, setSelectedOptionIdx 함수를 이용해 선택된 자동완성 요소가 없도록 합니다.</p>
+<p>인덱스를 -1로 이동시킨 이유는 CSS파일과 연관이 있다. 선택된 요소는 style로 회색바탕색을 가지게 구현했는데, 만약 자동완성을 선택했는데도 회색바탕색을 가지고 있다면 안되기 때문에 아무런 요소를 선택하지 않는 -1를 주게 되었습니다.</p>
+
+```
+function AutoComplete() {
+  ...
+  const autoCompleteClick = (selectedOption) => {
+    setInputValue(selectedOption);
+    setSelectedOptionIdx(-1);
+  };
+  ...
+}
+```
+
+<br><p>삭제버튼을 누르게되면 deleteBtnClick 메서드가 실행이 되고, setInputValue함수를 이용하여 input의 value값을 빈문자열("")을 주어 비워주게 만듭니다.</p>
+
+```
+function AutoComplete() {
+  ...
+  const deleteBtnClick = () => {
+    setInputValue("");
+  };
+  ...
+}
+```
+
+<br><p>UI로 표시된 자동완성을 선택할 수 있게 해주는 함수이다.</p>
+<p>hasText이 존재하고, input창에서 아래키가 눌렸을 경우에는 인덱스 값을 setSelectedOptionIdx를 이용하여 +1시켜줍니다.</p>
+<p>여기서 중요한 점은 데이터가 가진 인덱스 값을 넘어가지 않게하기위해, 현재 자동완성의 최대 인덱스값과 현재의 인덱스값을 뺐을때 한번이상 움직일 수 있다면이라는 조건을 넣어야합니다.</p>
+<p>위키가 눌렸을 때도 마찬가지로 조건을 주면 됩니다.</p>
+<p>마지막으로 input창에서 Enter키가 입력되었고, 현재 인덱스값이 0이상인경우에 해당 인덱스 값에 해당되는 데이터값을 input값으로 주고, 인덱스는 -1를 줍니다.</p>
+
+```
+function AutoComplete() {
+  ...
+  const dropDownKeyControl = (event) => {
+      if (hasText) {
+        if (event.key === "ArrowDown" && dropDownOptions.length - selectedOptionIdx > 1) {
+          setSelectedOptionIdx((prev) => prev + 1);
+        }
+
+        if (event.key === "ArrowUp" && selectedOptionIdx >= 0) {
+          setSelectedOptionIdx((prev) => prev - 1);
+        }
+        
+        if (event.key === "Enter" && selectedOptionIdx >= 0) {
+          autoCompleteClick(dropDownOptions[selectedOptionIdx]);
+          setSelectedOptionIdx(-1);
+        }
+      }
+    };
+  ...
+}
+```
+
+<br><p>input태그 말고 다른곳을 클릭한 경우에, setHasText 함수를 이용해 false값을 주어, 자동완성 리스트가 없어지게 만들었습니다.</p>
+
+```
+function AutoComplete() {
+  ...
+  const onBlur = () => {
+    setHasText(false);
+  };
+  ...
+}
+```
+
+<br><p>input에 값이 입력된 경우에 inputChange함수와 dropDownKeyControl함수가 실행이 됩니다. </p>
+<p>inputChange는 input입력값을 inputValue변수에 넣는 메소드이며, value={inputValue} 코드를 통해 inputValue를 UI화면상에서 input창에 표시됩니다.</p>
+<p>dropDownKeyControl 화살표키로 자동완성을 선택할 수 있는 메소드입니다.</p>
+<p>onBlur는 input태그 말고 다른곳을 클릭한 경우 자동완성 리스트가 표시되는 것을 방지합니다.</p>
+<p>삭제태그를 클릭한 경우에 deleteBtnClick 메서드가 실행되어 input값을 비워 줍니다.</p>
+
+```
+function AutoComplete() {
+  ...
+  return (
+      <div className={AutoCompleteStyle.InputContainer}>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={inputChange}
+          onKeyUp={inputChange}
+          onKeyDown={dropDownKeyControl}
+          onBlur={onBlur}
+        />
+        <div className={AutoCompleteStyle.deleteBtn} onClick={deleteBtnClick}>
+          &times;
+        </div>
+      </div>
+  ...
+  )
+}
+```
+
+<br><p>hasText가 true이면 DrapDown 컴포넌트를 실행하여 화면에 자동완성 리스트를 표시해주고, 아니라면 화면에 표시안되게 만들었습니다.</p>
+
+```
+function AutoComplete() {
+  ...
+  return (
+    ...
+      {hasText && (
+        <DropDown
+          dropDownOptions={dropDownOptions}
+          autoCompleteClick={autoCompleteClick}
+          selectedOptionIdx={selectedOptionIdx}
+        />
+      )}
+    ...
+  )
+}
 ```
 
 <br>

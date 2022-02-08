@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import tagStyle from "./css/Tag.module.css";
 
 function Tag() {
-  const initialTags = ["프리온보딩", "이동규"];
+  const initialTags = ["코드스테이츠", "프리온보딩", "이동규"];
   const [tags, setTags] = useState(initialTags);
 
   // filter함수를 통해 tags를 선별하고, 선별된 태그를 가진 배열을 setTags함수로 동기화한다.

@@ -9,6 +9,8 @@ const AutoCompleteList = [
   "vinyl",
   "vintage",
   "refurbished",
+  "가나다라마바사",
+  "아자차카타파하",
   "신품",
   "빈티지",
   "중고A급",
@@ -24,9 +26,7 @@ function DropDown({ dropDownOptions, autoCompleteClick, selectedOptionIdx }) {
           key={idx}
           onClick={() => autoCompleteClick(item)}
           className={
-            selectedOptionIdx === idx
-              ? `${AutoCompleteStyle.selectedOption}`
-              : ""
+            selectedOptionIdx === idx && `${AutoCompleteStyle.selectedOption}`
           }
         >
           {item}
@@ -54,6 +54,9 @@ function AutoComplete() {
       setdropDownOptions(
         AutoCompleteList.filter((element) => {
           //입력된 값을 포함하는 option만 걸러준 상태로 변경한다.
+          if (element === inputValue) {
+            setHasText(false);
+          }
           return element.includes(inputValue);
         })
       );
@@ -63,12 +66,12 @@ function AutoComplete() {
   const inputChange = (event) => {
     //input값 변경 시 발생되는 이벤트 핸들러.
     setInputValue(event.target.value); //inputValue를 입력된 값으로 바꿔준다.
-    setHasText(true); //input값 유무상태도 당연히 true(있음)으로 바꿔준다.
+    // setHasText(true); //input값 유무상태도 당연히 true(있음)으로 바꿔준다.
   };
 
-  const autoCompleteClick = (selectedOptionAutoComplete) => {
+  const autoCompleteClick = (selectedOption) => {
     //DropDown 컴포넌트의 li엘리먼트에서 onClick으로 이벤트 핸들러 함수에 option을 전달해주고 있다.
-    setInputValue(selectedOptionAutoComplete); //전달받은 option으로 inputValue를 변경해준다.
+    setInputValue(selectedOption); //전달받은 option으로 inputValue를 변경해준다.
     setSelectedOptionIdx(-1);
   };
 
@@ -102,23 +105,16 @@ function AutoComplete() {
       }
     }
   };
-  const onBlur = () => {
-    setHasText(false);
-  };
-  const inputOnClick = () => {
-    setHasText(true);
-  };
   return (
     <div className={AutoCompleteStyle.outer}>
       <h1 className={AutoCompleteStyle.title}> AutoComplete </h1>
-      <div className={AutoCompleteStyle.InputContainer} onClick={inputOnClick}>
+      <div className={AutoCompleteStyle.InputContainer}>
         <input
           type="text"
           value={inputValue}
           onChange={inputChange}
           onKeyUp={inputChange}
           onKeyDown={dropDownKeyControl}
-          onBlur={onBlur}
         />
         <div className={AutoCompleteStyle.deleteBtn} onClick={deleteBtnClick}>
           &times;

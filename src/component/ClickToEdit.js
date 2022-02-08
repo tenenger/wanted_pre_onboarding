@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ClickToEditStyle from "./css/ClickToEdit.module.css";
 
 //MyInput 컴포넌트는 ClickToEdit 컴포넌트의 자식 컴포넌트이다.
@@ -6,10 +6,6 @@ import ClickToEditStyle from "./css/ClickToEdit.module.css";
 function MyInput({ value, changeValue }) {
   const [editOn, setEditOn] = useState(false); //edit모드 상태
   const [newValue, setNewValue] = useState(value); //출력값 상태
-
-  useEffect(() => {
-    setNewValue(value);
-  }, [value]);
 
   const editOnClick = () => {
     //span태그를 클릭하면 edit모드가 활성화 되고 위의 useEffect에 의해 input창에 포커싱이 된다.
@@ -33,9 +29,9 @@ function MyInput({ value, changeValue }) {
     }
   };
   return (
-    <label
+    <div
       className={`${ClickToEditStyle.inputBox} ${
-        editOn ? `${ClickToEditStyle.focused}` : ""
+        editOn && `${ClickToEditStyle.focused}`
       }`}
       onClick={editOnClick}
     >
@@ -53,7 +49,7 @@ function MyInput({ value, changeValue }) {
       ) : (
         <div>{newValue}</div>
       )}
-    </label>
+    </div>
   );
 }
 
@@ -70,20 +66,12 @@ function ClickToEdit() {
     <div className={ClickToEditStyle.outer}>
       <h1 className={ClickToEditStyle.title}> ClickToEdit </h1>
       <div className={ClickToEditStyle.inputView}>
-        <label htmlFor="name">이름</label>
-        <MyInput
-          id="name"
-          value={name}
-          changeValue={(newName) => setName(newName)}
-        />
+        <span>이름</span>
+        <MyInput value={name} changeValue={(newName) => setName(newName)} />
       </div>
       <div className={ClickToEditStyle.inputView}>
-        <label htmlFor="age">나이</label>
-        <MyInput
-          id="age"
-          value={age}
-          changeValue={(newAge) => setAge(newAge)}
-        />
+        <span>나이</span>
+        <MyInput value={age} changeValue={(newAge) => setAge(newAge)} />
       </div>
       <div className={ClickToEditStyle.inputView}>
         <div className={ClickToEditStyle.view}>

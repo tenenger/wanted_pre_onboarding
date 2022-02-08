@@ -233,6 +233,7 @@ function Tab() {
 <p>onKeyUp이벤트 함수는 키보드의 자판이 눌렸다가 올라올때 실행되는 것으로, tag를 추가하는 addTags를 실행합니다. </p>
 <br><p>addTags는 Enter와 input입력값 조건에 따라 코드가 실행이 되어, tag를 추가하거나 추가되지 않게됩니다.</p>
 
+```
 function Tab() {
   ...
   return (
@@ -282,10 +283,14 @@ className={`${
 
 # 컴포넌트별 자세한 실행 방법
 ## App.js
-1. 이용할 컴포넌트를 import합니다.
-```import Toggle from "./component/Toggle"```
+<p>이용할 컴포넌트를 import합니다</p>
 
-2. return 값으로 이용할 컴포넌트를 입력합니다.
+```
+import Toggle from "./component/Toggle"
+```
+
+<p>return 값으로 이용할 컴포넌트를 입력합니다.</p>
+
 ``` 
 function App() {
   return (
@@ -295,5 +300,5 @@ function App() {
     </div>
   );
 }
-
+```
 ## Toggle.js

@@ -2,7 +2,71 @@
 Demo: https://wanted-pre-onboarding-ldg.netlify.app/
 <br><br>
 
-# 컴포넌트별 구현한 방법, 그렇게 구현한 이유
+
+# 구현하면서 어려웠던 점과 해결 방법 (Error Handling Log)
+## Toggle.js
+<p>토글 버튼을 구현하기위한 CSS파일을 만드는 것이 어려웠습니다. 처음에는 색깔만 바뀌는 정도의 style만 구현할까 고민도 했습니다. </p>
+<p>그러나 지금 안해본다면 하지않을 거 같았고, 안해본 것도 해보는것이 개발자로서 개발역량을 향상시킬 수 있는 기회라 생각하여, 구글 토글버튼과 같은 style을 구현하기로 마음먹었습니다. </p>
+<br><p>그래서 인터넷으로 구현하는 방법에 대해 검색했고, 영어권 커뮤니티에 올려진 글을 통해 토글 버튼을 구현했습니다.</p>
+
+## Tab.js
+<p>CSS파일을 모듈화하여 style을 적용시키고자 했습니다.</p>
+<p>계획은 전체 Tab태그와 선택된 Tab의 style을 개별적으로 적용시키고자 했습니다. </p>
+<p>모든 Tab에는 meun 클래스명을 선언을 완료했지만, 클릭된 Tab에는 별도의 focused 클래스명을 추가로 선언하려는 것이 어려웠습니다.</p>
+<p>특히 undefined가 className으로 적혀져 있을때는 무엇이 문제인지 몰랐습니다. </p>
+<p>예전에 트위터를 클론코딩했을때 클래스명을 2개를 써봤던 경험이 있어서, 기존에 만든 트위터 프로젝트의 코드와 비교하면서 코드를 구현했습니다. </p>
+<p>추가적으로 undefined는 className이 정상적으로 적용이 되었지만, CSS파일에 해당 className으로 작성된게 없어서 발생한 문제였습니다. </p>
+<p>그래서 CSS파일에 해당 className으로 코드를 작성했더니 정상적으로 style이 적용이 되었습니다.</p>
+
+```
+className={`${idx === currentIdx
+              ? `${TabStyle.menu} ${TabStyle.focused}`    // 문제의 코드
+              : `${TabStyle.menu}`
+          }`}
+```
+
+<br>
+
+## Tag.js
+<p>기존에 학습한대로 img태그나 background-image를 이용하여 삭제의 X표시를 구현할수 있지만, 그렇게 한다면, 작성할 코드가 많아져 가독성이 떨어질 염려가 되었습니다.</p> 
+<p>이를 해결하기위해, 인터넷으로 간단한 X표시를 할 수 있는 방법을 찾아보게 되었습니다. </p>
+<br><p>인터넷의 한 블로그에서 &times;를 이용하면 쉽게 X표시를 할 수 있다는 사실을 알게되어, &times;를 이용해 X표시를 구현했습니다.</p>
+
+## AutoComplete.js
+
+
+## ClickToEdit.js
+<p> <label>태그를 사용하여 input안에 입력된 문자없이 input태그를 클릭해도 수정이 활성화 됩니다.</p>
+  
+<p><MyInput value={name} changeValue={(newName) => setName(newName)} />input의 value값을 하위 컴포넌트에 props로 부여하고 하위컴포넌트에서 다시 부모컴포넌트로 값을 넘겨주는 방식을 구현하기 어려웠다. 처음에는 input의 value값을 어떻게 넘겨주는지 고민이 너무많아 내가</p>
+
+<br><br>
+  
+# 컴포넌트별 자세한 코드 실행 및 기능실행 방법
+## App.js
+<p>이용할 컴포넌트를 import합니다</p>
+
+```
+import Toggle from "./component/Toggle"
+```
+
+<p>return 값으로 이용할 컴포넌트를 입력합니다.</p>
+
+``` 
+function App() {
+  return (
+    <div className="app">
+        ...
+      <Toggle />
+    </div>
+  );
+}
+```
+## Toggle.js
+
+<br><br>
+
+# 코드 리뷰
 ## Toggle.js
 <p>활성화시킨 경우(true)와 비활성화시킨 상태(false), 즉 2가지 상태만 가지고 있는 스위치입니다.</p>
 <p>그래서 상태값을 쉽게 전환할 수 있는 useState를 이용하여 구현했습니다.</p>
@@ -600,64 +664,3 @@ return (
   ...
   );
 ```
-
-<br>
-
-# 구현하면서 어려웠던 점과 해결 방법 (Error Handling Log)
-## Toggle.js
-<p>토글 버튼을 구현하기위한 CSS파일을 만드는 것이 어려웠습니다. 처음에는 색깔만 바뀌는 정도의 style만 구현할까 고민도 했습니다. </p>
-<p>그러나 지금 안해본다면 하지않을 거 같았고, 안해본 것도 해보는것이 개발자로서 개발역량을 향상시킬 수 있는 기회라 생각하여, 구글 토글버튼과 같은 style을 구현하기로 마음먹었습니다. </p>
-<br><p>그래서 인터넷으로 구현하는 방법에 대해 검색했고, 영어권 커뮤니티에 올려진 글을 통해 토글 버튼을 구현했습니다.</p>
-
-## Tab.js
-<p>CSS파일을 모듈화하여 style을 적용시키고자 했습니다.</p>
-<p>계획은 전체 Tab태그와 선택된 Tab의 style을 개별적으로 적용시키고자 했습니다. </p>
-<p>모든 Tab에는 meun 클래스명을 선언을 완료했지만, 클릭된 Tab에는 별도의 focused 클래스명을 추가로 선언하려는 것이 어려웠습니다.</p>
-<p>특히 undefined가 className으로 적혀져 있을때는 무엇이 문제인지 몰랐습니다. </p>
-<p>예전에 트위터를 클론코딩했을때 클래스명을 2개를 써봤던 경험이 있어서, 기존에 만든 트위터 프로젝트의 코드와 비교하면서 코드를 구현했습니다. </p>
-<p>추가적으로 undefined는 className이 정상적으로 적용이 되었지만, CSS파일에 해당 className으로 작성된게 없어서 발생한 문제였습니다. </p>
-<p>그래서 CSS파일에 해당 className으로 코드를 작성했더니 정상적으로 style이 적용이 되었습니다.</p>
-
-```
-className={`${idx === currentIdx
-              ? `${TabStyle.menu} ${TabStyle.focused}`    // 문제의 코드
-              : `${TabStyle.menu}`
-          }`}
-```
-
-<br>
-
-## Tag.js
-<p>기존에 학습한대로 img태그나 background-image를 이용하여 삭제의 X표시를 구현할수 있지만, 그렇게 한다면, 작성할 코드가 많아져 가독성이 떨어질 염려가 되었습니다.</p> 
-<p>이를 해결하기위해, 인터넷으로 간단한 X표시를 할 수 있는 방법을 찾아보게 되었습니다. </p>
-<br><p>인터넷의 한 블로그에서 &times;를 이용하면 쉽게 X표시를 할 수 있다는 사실을 알게되어, &times;를 이용해 X표시를 구현했습니다.</p>
-
-## AutoComplete.js
-
-
-## ClickToEdit.js
-<p><label>태그를 사용하여 input안에 입력된 문자없이 input태그를 클릭해도 수정이 활성화 됩니다.</p>
-  
-<p><MyInput value={name} changeValue={(newName) => setName(newName)} />input의 value값을 하위 컴포넌트에 props로 부여하고 하위컴포넌트에서 다시 부모컴포넌트로 값을 넘겨주는 방식을 구현하기 어려웠다. 처음에는 input의 value값을 어떻게 넘겨주는지 고민이 너무많아 내가</p>
-
-# 컴포넌트별 자세한 코드 실행 및 기능실행 방법
-## App.js
-<p>이용할 컴포넌트를 import합니다</p>
-
-```
-import Toggle from "./component/Toggle"
-```
-
-<p>return 값으로 이용할 컴포넌트를 입력합니다.</p>
-
-``` 
-function App() {
-  return (
-    <div className="app">
-        ...
-      <Toggle />
-    </div>
-  );
-}
-```
-## Toggle.js

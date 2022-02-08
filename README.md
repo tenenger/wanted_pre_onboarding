@@ -2,14 +2,30 @@
 Demo: https://wanted-pre-onboarding-ldg.netlify.app/
 <br><br>
 
+# 어떤 스킬을 가지고 구현했는지, 이에 대한 이유
+### [주요 기술]
+<p>Front-end: JSX, React</p>
+<p>Deployment: Netflify</p><br>
+
+### [해당 기술을 이용한 이유]
+<p>빠른 실행속도를 위해 라이브러리를 사용하지 않고, JavaScript와 React만을 이용하여 개발했고, 이를 Netflify로 배포했습니다.</p>
+<p>포트폴리오 웹사이트에 메뉴바를 라이브러리를 사용하여 기능을 구현했습니다.</p>
+<p>해당 메뉴바에 에러가 있었는데, 웹사이트를 실행되자마자 버튼을 누르면 의도와 다른 이상한 위치로 이동하는 것이었습니다.</p>
+<p>알고보니, import하는 jQuery의 데이터 양이 많아, 라이브러리의 데이터를 불러오기 전에 코드를 실행하여 발생하는 문제였습니다.</p>
+<p>JavaScript로 메뉴바를 구현하여, 에러를 잡는 것과 동시에 실행시간이 단축되었다는 것을 체감하게 되었습니다.</p>
+<p>그래서 빠른 실행속도를 위해, 라이브러리를 사용하지 않고 JavaScript를 사용하여 컴포넌트를 구현했습니다.</p>
+
+<br><br>
 
 # 구현하면서 어려웠던 점과 해결 방법 (Error Handling Log)
 ## Toggle.js
+### 토글 버튼 CSS파일로 구현하기
 <p>토글 버튼을 구현하기위한 CSS파일을 만드는 것이 어려웠습니다. 처음에는 색깔만 바뀌는 정도의 style만 구현할까 고민도 했습니다. </p>
 <p>그러나 지금 안해본다면 하지않을 거 같았고, 안해본 것도 해보는것이 개발자로서 개발역량을 향상시킬 수 있는 기회라 생각하여, 구글 토글버튼과 같은 style을 구현하기로 마음먹었습니다. </p>
-<br><p>그래서 인터넷으로 구현하는 방법에 대해 검색했고, 영어권 커뮤니티에 올려진 글을 통해 토글 버튼을 구현했습니다.</p>
+<p>그래서 인터넷으로 구현하는 방법에 대해 검색했고, 영어권 커뮤니티에 올려진 글을 통해 토글 버튼을 구현했습니다.</p><br>
 
 ## Tab.js
+### className 여러개 적용시키기
 <p>CSS파일을 모듈화하여 style을 적용시키고자 했습니다.</p>
 <p>계획은 전체 Tab태그와 선택된 Tab의 style을 개별적으로 적용시키고자 했습니다. </p>
 <p>모든 Tab에는 meun 클래스명을 선언을 완료했지만, 클릭된 Tab에는 별도의 focused 클래스명을 추가로 선언하려는 것이 어려웠습니다.</p>
@@ -28,41 +44,36 @@ className={`${idx === currentIdx
 <br>
 
 ## Tag.js
-<p>기존에 학습한대로 img태그나 background-image를 이용하여 삭제의 X표시를 구현할수 있지만, 그렇게 한다면, 작성할 코드가 많아져 가독성이 떨어질 염려가 되었습니다.</p> 
+### 이미지를 이용하지 않고, 엔티티 사용하기
+<p>기존에 학습한대로 img태그나 background-image를 이용하여 삭제의 X표시를 구현할수 있지만, 그렇게 한다면, 코드가 길어져서 가독성이 떨어질 염려가 되었습니다.</p> 
 <p>이를 해결하기위해, 인터넷으로 간단한 X표시를 할 수 있는 방법을 찾아보게 되었습니다. </p>
-<br><p>인터넷의 한 블로그에서 &times;를 이용하면 쉽게 X표시를 할 수 있다는 사실을 알게되어, &times;를 이용해 X표시를 구현했습니다.</p>
+<p>인터넷의 한 블로그에서 &times;를 이용하면 쉽게 X표시를 할 수 있다는 사실을 알게되어, &times;를 이용해 X표시를 구현했습니다.</p><br>
 
 ## AutoComplete.js
+### 이미지를 이용하지 않고, 엔티티 사용하기
+<p> 자동완성만들기</p>
 
+### 이미지를 이용하지 않고, 엔티티 사용하기
+<p> 키보드를 이용하여 자동완성 선택하기</p>
+
+
+```
+    setdropDownOptions(
+      AutoCompleteList.filter((element) => {
+        //입력된 값을 포함하는 option만 걸러준 상태로 변경한다.
+        if (element === inputValue) {
+          setHasText(false);
+        }
+        return element.includes(inputValue);
+      })
+```
 
 ## ClickToEdit.js
+### 이미지를 이용하지 않고, 엔티티 사용하기
 <p> <label>태그를 사용하여 input안에 입력된 문자없이 input태그를 클릭해도 수정이 활성화 됩니다.</p>
   
+### 이미지를 이용하지 않고, 엔티티 사용하기
 <p><MyInput value={name} changeValue={(newName) => setName(newName)} />input의 value값을 하위 컴포넌트에 props로 부여하고 하위컴포넌트에서 다시 부모컴포넌트로 값을 넘겨주는 방식을 구현하기 어려웠다. 처음에는 input의 value값을 어떻게 넘겨주는지 고민이 너무많아 내가</p>
-
-<br><br>
-  
-# 컴포넌트별 자세한 코드 실행 및 기능실행 방법
-## App.js
-<p>이용할 컴포넌트를 import합니다</p>
-
-```
-import Toggle from "./component/Toggle"
-```
-
-<p>return 값으로 이용할 컴포넌트를 입력합니다.</p>
-
-``` 
-function App() {
-  return (
-    <div className="app">
-        ...
-      <Toggle />
-    </div>
-  );
-}
-```
-## Toggle.js
 
 <br><br>
 

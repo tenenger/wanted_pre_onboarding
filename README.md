@@ -8,12 +8,11 @@ Demo: https://wanted-pre-onboarding-ldg.netlify.app/
 <p>Deployment: Netflify</p><br>
 
 ### [해당 기술을 이용한 이유]
-<p>빠른 실행속도를 위해 라이브러리를 사용하지 않고, JavaScript와 React만을 이용하여 개발했고, 이를 Netflify로 배포했습니다.</p>
-<p>포트폴리오 웹사이트에 메뉴바를 라이브러리를 사용하여 기능을 구현했습니다.</p>
+<p>포트폴리오 웹사이트에 메뉴바를 라이브러리를 사용하여 구현한 적이 있었습니다.</p>
 <p>해당 메뉴바에 에러가 있었는데, 웹사이트를 실행되자마자 버튼을 누르면 의도와 다른 이상한 위치로 이동하는 것이었습니다.</p>
 <p>알고보니, import하는 jQuery의 데이터 양이 많아, 라이브러리의 데이터를 불러오기 전에 코드를 실행하여 발생하는 문제였습니다.</p>
-<p>JavaScript로 메뉴바를 구현하여, 에러를 잡는 것과 동시에 실행시간이 단축되었다는 것을 체감하게 되었습니다.</p>
-<p>그래서 빠른 실행속도를 위해, 라이브러리를 사용하지 않고 JavaScript를 사용하여 컴포넌트를 구현했습니다.</p>
+<p>그래서 JavaScript로 메뉴바를 구현했더니, 에러를 잡는 것과 동시에 실행시간이 단축되었다는 것을 체감하게 되었습니다.</p>
+<p>그 결과로 라이브러리를 사용하지 않고, 기본으로 사용되는 JSX를 이용하여 컴포넌트를 구현하게 됐습니다.</p>
 
 <br><br>
 
@@ -35,7 +34,7 @@ Demo: https://wanted-pre-onboarding-ldg.netlify.app/
 <p>그래서 CSS파일에 해당 className으로 코드를 작성했더니 정상적으로 style이 적용이 되었습니다.</p>
 
 ```
-className={`${TabStyle.menu} ${idx === currentIdx && `${TabStyle.focused}`}`}     // 해당 
+className={`${TabStyle.menu} ${idx === currentIdx && `${TabStyle.focused}`}`}     // 해당 코드
 onClick={() => contentChangeIdx(idx)}
 key={item.tab}
 ```
@@ -48,31 +47,97 @@ key={item.tab}
 <p>이를 해결하기위해, 인터넷으로 간단한 X표시를 할 수 있는 방법을 찾아보게 되었습니다. </p>
 <p>인터넷의 한 블로그에서 & times;를 이용하면 쉽게 X표시를 할 수 있다는 사실을 알게되어, & times;를 이용해 X표시를 구현했습니다.</p><br>
 
+<br>
+
 ## AutoComplete.js
-### 이미지를 이용하지 않고, 엔티티 사용하기
-<p> 자동완성만들기</p>
-
-### 이미지를 이용하지 않고, 엔티티 사용하기
-<p> 키보드를 이용하여 자동완성 선택하기</p>
-
+### input입력값이 자동완성 데이터와 같은게 있을때, 자동완성 UI 숨기기
+<p>네이버, 다음, 구글 검색창과 다르게 내가 구현한 검색창만 검색단어를 입력해도 자동완성 UI가 사라지지 않았습니다.</p>
+<p>처음에는 input태그의 onBlur을 사용하여 hasText값을 false로 주어, 강제로 자동완성 UI를 제거했지만, 그 결과 자동완성을 클릭하면 UI는 종료되는데 input값에 해당 데이터가 입력이 안되는 것이었습니다.</p>
+<p>처음으로 돌아와 천천히 노트에 적으면서 내가 구현하고자 하는 기능을 생각을 정리했고, input값이 주어졌을때 입력값과 자동완성 데이터가 같다면 hasText값으로 false를 주면 해당 기능이 구현될 것이라는 생각을 하게 되었고, 그 결과 성공적이었습니다.</p>
+<p>추가적으로 의도하지 않았지만, input값을 입력하고 모두 지우면, 입력창 밑에 표시되던 자동완성의 빈박스가 사라지게 되었습니다.</p>
 
 ```
     setdropDownOptions(
       AutoCompleteList.filter((element) => {
         //입력된 값을 포함하는 option만 걸러준 상태로 변경한다.
-        if (element === inputValue) {
+        if (element === inputValue) {                       // 해당 코드
           setHasText(false);
         }
         return element.includes(inputValue);
       })
 ```
 
+### 키보드를 이용하여 자동완성 선택하기
+<p>네이버, 다음, 구글 검색창과 다르게 키보드를 이용하여 자동완성을 입력창에 넣는 기능이 없었습니다.</p>
+<p>전혀 배우지 않은 기능을 구현하고자 하니, 혼자서 한참을 헤메었습니다.</p>
+<p>혼자서는 도저히 기능을 구현하기 힘들다고 판단을 했고, 인터넷으로 구현하는 방법에 대해 검색했으며, 영어권 커뮤니티에 올려진 글을 통해 키보드를 이용한 자동완성 선택하는 기능을 구현했습니다.</p>
+<p>코드만 구현하고 이대로 끝내면, 이와 비슷한 기능을 구현하는데 힘이 들것이라 생각하여, 최대한 주석을 적어 내것으로 만들기 위해 노력하고 있습니다.
+    
+```
+  const dropDownKeyControl = (event) => {
+    //option을 키보드로 선택할 수 있게해주는 핸들러 함수
+    if (hasText) {
+      //input에 값이 있을때
+      if (
+        event.key === "ArrowDown" &&
+        dropDownOptions.length - 1 > selectedOptionIdx
+      ) {
+        setSelectedOptionIdx((prev) => prev + 1);
+      }
+      //dropDownOptions.length에 -1을 해주는 이유는 selectedOption의 최대값을 맞춰주기 위해서이다.
+      //예를들어 밑에 option이 2개가 나왔다고 가정했을 때, selectedOption값이 최대 1까지 변할 수 있게 해줘야한다.
+      //'ArrowDown'키를 누르면 selectedOption는 0이 되고, 한번 더 누르면 1이 되고, 그 다음은 더이상 옵션이 없기 때문에 키가 안먹히게 해주는 것이다.
+
+      if (event.key === "ArrowUp" && selectedOptionIdx >= 0) {
+        //처음 조건을 이해했다면 여기는 자연스럽게 이해될 것이다.
+        setSelectedOptionIdx((prev) => prev - 1);
+      }
+      if (event.key === "Enter" && selectedOptionIdx >= 0) {
+        //Enter키로 option 선택
+        autoCompleteClick(dropDownOptions[selectedOptionIdx]);
+        setSelectedOptionIdx(-1); //Enter키를 눌러서 선택이 되면 다시 selectedOption는 -1이 되야한다.
+      }
+    }
+  };
+```
+
 ## ClickToEdit.js
-### 이미지를 이용하지 않고, 엔티티 사용하기
-<p> <label>태그를 사용하여 input안에 입력된 문자없이 input태그를 클릭해도 수정이 활성화 됩니다.</p>
-  
-### 이미지를 이용하지 않고, 엔티티 사용하기
-<p><MyInput value={name} changeValue={(newName) => setName(newName)} />input의 value값을 하위 컴포넌트에 props로 부여하고 하위컴포넌트에서 다시 부모컴포넌트로 값을 넘겨주는 방식을 구현하기 어려웠다. 처음에는 input의 value값을 어떻게 넘겨주는지 고민이 너무많아 내가</p>
+### 컴포넌트 구현
+<p>다른 컴포넌트와 다르게, 생각만 해도 머리가 복잡해져서 구현시도조차 해보지 못했습니다.</p>
+<p>그래서 인터넷으로 구현하는 방법에 대해 검색했으며, 블로그에 적힌 코드를 보면서 컴포넌트를 구현했습니다.</p>
+<p>하지만 블로그에 적힌 코드를 똑같이 따라하기보다는, 커스텀하여 코드를 작성했습니다.</p>
+<p>코드 구현 중에 가장 힘들었던 점은, 부모 컴포넌트 안에 있는 input의 value값을 자식 컴포넌트에 props로 부여하고, 자식 컴포넌트에서 다시 부모컴포넌트로 값을 넘겨주는 방식을 이해하지 못했습니다.</p>
+<p>키보드를 이용한 자동완성 코드에 주석을 작성한것과 마찬가지로, 해당 코드도 주석을 활용해 내것으로 만들기 위해 노력하고 있습니다.</p>
+
+```
+    //MyInput 컴포넌트는 ClickToEdit 컴포넌트의 자식 컴포넌트이다.
+    //그래서 value를 전달 받는데 여기(value)에는 { name, age } 로 name상태값과 age상태값을 가지고 있다.
+    function MyInput({ value, changeValue }) {
+        const [editOn, setEditOn] = useState(false); //edit모드 상태
+        const [newValue, setNewValue] = useState(value); //출력값 상태
+
+        const editOnClick = () => {
+            //span태그를 클릭하면 edit모드가 활성화 되고 위의 useEffect에 의해 input창에 포커싱이 된다.
+            setEditOn(true);
+        };
+
+        const EditOffClick = () => {
+            //input창이 아닌 다른 곳을 클릭하면 edit모드를 비활성화로 만든다.
+            setEditOn(false);
+            changeValue(newValue); //그리고 input창에 입력되어있는 값으로 newValue를 바꿔준다.
+        };
+
+        const handleInputChange = (event) => {
+            setNewValue(event.target.value); //input에 입력한 값을 newValue에 담아둔다.
+            //여기서 입력을 해준다고 바로바로 밑의 출력값이 변하지 않는다.
+            //왜냐하면 handleBlur에 의해서 changeValue 함수가 실행되어야 값이 바뀌기 때문이다.
+        };
+            const inputEnter = (event) => {
+            if (event.key === "Enter" && value !== "") {
+              EditOffClick();
+        }
+    };
+```
 
 <br><br>
 

@@ -35,10 +35,9 @@ Demo: https://wanted-pre-onboarding-ldg.netlify.app/
 <p>그래서 CSS파일에 해당 className으로 코드를 작성했더니 정상적으로 style이 적용이 되었습니다.</p>
 
 ```
-className={`${idx === currentIdx
-              ? `${TabStyle.menu} ${TabStyle.focused}`    // 문제의 코드
-              : `${TabStyle.menu}`
-          }`}
+className={`${TabStyle.menu} ${idx === currentIdx && `${TabStyle.focused}`}`}     // 해당 
+onClick={() => contentChangeIdx(idx)}
+key={item.tab}
 ```
 
 <br>
@@ -47,7 +46,7 @@ className={`${idx === currentIdx
 ### 이미지를 이용하지 않고, 엔티티 사용하기
 <p>기존에 학습한대로 img태그나 background-image를 이용하여 삭제의 X표시를 구현할수 있지만, 그렇게 한다면, 코드가 길어져서 가독성이 떨어질 염려가 되었습니다.</p> 
 <p>이를 해결하기위해, 인터넷으로 간단한 X표시를 할 수 있는 방법을 찾아보게 되었습니다. </p>
-<p>인터넷의 한 블로그에서 &times;를 이용하면 쉽게 X표시를 할 수 있다는 사실을 알게되어, &times;를 이용해 X표시를 구현했습니다.</p><br>
+<p>인터넷의 한 블로그에서 & times;를 이용하면 쉽게 X표시를 할 수 있다는 사실을 알게되어, & times;를 이용해 X표시를 구현했습니다.</p><br>
 
 ## AutoComplete.js
 ### 이미지를 이용하지 않고, 엔티티 사용하기
@@ -79,6 +78,7 @@ className={`${idx === currentIdx
 
 # 코드 리뷰
 ## Toggle.js
+<img src='https://user-images.githubusercontent.com/88726990/152920382-28c0d3d9-9e55-4f83-b5bd-202c5a800f02.gif'/>
 <p>활성화시킨 경우(true)와 비활성화시킨 상태(false), 즉 2가지 상태만 가지고 있는 스위치입니다.</p>
 <p>그래서 상태값을 쉽게 전환할 수 있는 useState를 이용하여 구현했습니다.</p>
 
@@ -86,21 +86,17 @@ className={`${idx === currentIdx
 const [toggleOn, setToggleOn] = useState(false);
 ```
 
-<br><p>활성화된 경우(true)와 비활성화 된 경우(false)를, 삼항연산자를 활용하여 코드를 구현했습니다.</p>
+<br><p>활성화된 경우(true)와 비활성화 된 경우(false)를, 논리연산자를 활용하여 코드를 구현했습니다.</p>
 <p>활성화(true)된 경우 togglecheck CSS으로 인해 원모양이 오른쪽으로 이동하고, 비활성화(false)된 경우에는 원모양이 왼쪽으로 이동한다.</p>
-<img src='https://user-images.githubusercontent.com/88726990/152920382-28c0d3d9-9e55-4f83-b5bd-202c5a800f02.gif'/>
 
 ```
 ...
   <div className={` ${toggleStyle.toggle} ${
-    toggleOn ? toggleStyle.togglecheck : ""
-    }`}
-  />
+    toggleOn && toggleStyle.togglecheck}`
+  }/>
   <div
-    className={`${
-      toggleOn
-        ? `${toggleStyle.toggleCircle} ${toggleStyle.togglecheck}`
-        : `${toggleStyle.toggleCircle}`
+    className={`${toggleStyle.toggleCircle} ${
+      toggleOn && `${toggleStyle.togglecheck}`
     }`}
   />
 ...
@@ -110,6 +106,7 @@ const [toggleOn, setToggleOn] = useState(false);
 <br>
 
 ## Modal.js
+<img src='https://user-images.githubusercontent.com/88726990/152976888-40b8bf1d-82a0-4595-a7ad-4619d0b5c31e.gif'/>
 <p>활성화시킨 경우(true)와 비활성화시킨 상태(false), 즉 2가지 상태만 가지고 있는 스위치입니다.</p>
 <p>Toggle은 열고 닫는 스위치가 동일한 반면에, Modal은 열고 닫는 스위치가 개별로 사용됩니다.</p>
   
@@ -145,6 +142,7 @@ const onModal = () => {
 <br>
 
 ## Tab.js
+<img src='https://user-images.githubusercontent.com/88726990/152976895-a17c875d-40ed-41f7-a476-a3ac76ae8145.gif'/>
 <p>탭 메뉴에 사용될 데이터를 배열안에 객체로 선언합니다. </p>
 
 ``` 
@@ -205,11 +203,8 @@ function Tab() {
 return (
   {tabMenu.map((item, idx) => (
     <div
-      className={`${
-        idx === currentIdx
-          ? `${TabStyle.menu} ${TabStyle.focused}`
-          : `${TabStyle.menu}`
-      }`}
+      className={`${TabStyle.menu} 
+      ${idx === currentIdx && `${TabStyle.focused}`}`}
       onClick={() => contentChangeIdx(idx)}
       key={item.tab}
     >
@@ -225,12 +220,13 @@ return (
 <br>
 
 ## Tag.js
+<img src='https://user-images.githubusercontent.com/88726990/152976902-1b80dd29-1c32-4291-94ca-f935b7fb8fe4.gif'/>
 <p>입력한 값을 저장할 tags를 useState를 이용해 변수와 값을 변경시킬 함수를 선언합니다.</p>
 <p>배열(initialTags)은 생략하고, useState에 빈 배열(useState([]))을 넣어도 Tag 컴포넌트를 구현하는데 지장은 없습니다.</p>
 
 ```
 function Tag() {
-  const initialTags = ["프리온보딩", "이동규"];
+  const initialTags = ["코드스테이츠", "프리온보딩", "이동규"];
   const [tags, setTags] = useState(initialTags);
   ...
 }
@@ -287,11 +283,11 @@ const addTags = (event) => {
 ```
 
 <br><p>map함수를 이용해 tags의 tag 갯수마다 반복하고, tag값으로 tags배열안의 문자열을 가진다. tags.map((tag, idx)에서 idx는 자동으로 생성되는 인덱스값입니다.</p>
-<p>삭제버튼은 &times;으로 x표시를 구현하고, 클릭되었을 경우 removeTags함수에 인덱스 값을 인수로 부여하여 removeTags함수의 filter메서드로 인해 해당 인덱스를 가진 tag들은 삭제됩니다.</p>
+<p> & times; ; 으로 X표시를 구현하고, 클릭되었을 경우 removeTags함수에 인덱스 값을 인수로 부여하여 removeTags함수의 filter메서드로 인해 해당 인덱스를 가진 tag들은 삭제됩니다.</p>
 
 
 ```
-function Tab() {
+function Tag() {
   ...
   return (
   ...
@@ -334,6 +330,8 @@ function Tab() {
 <br>
 
 ## AutoComplete.js
+<img src='https://user-images.githubusercontent.com/88726990/152976861-edda79ed-7dbe-41ce-84bd-69e27dad966b.gif'/>
+
 <p>자동완성의 데이터를 배열로 선언합니다.</p>
 
 ```
@@ -345,6 +343,8 @@ const AutoCompleteList = [
   "vinyl",
   "vintage",
   "refurbished",
+  "가나다라마바사",
+  "아자차카타파하",
   "신품",
   "빈티지",
   "중고A급",
@@ -394,6 +394,7 @@ function AutoComplete() {
 
 <br><p>input값(inputValue)이 아무것도 입력이 안되어 있는 상태(빈문자열)이라면 hasText값을 false를 주고, setdropDownOptions([])을 통해 자동완성 리스트가 UI에 표시되는 것과 화살표키보드로 자동완성을 선택하는 것을 방지합니다.</p>
 <p>input값(inputValue)이 입력값이 있는 상태라면 hasText값을 true를 주고, setdropDownOptions함수를 통해 inputValue이 포함된 자동완성리스트들만 dropDownOptions에 배열로 할당합니다.</p>
+<p>filter를 이용해 element값과 input값(inputValue)이 같다면, 자동완성 리스트를 비활성화 시킵니다.</p>
 
 ```
 function AutoComplete() {
@@ -406,6 +407,7 @@ function AutoComplete() {
         setHasText(true);
         setdropDownOptions(
           AutoCompleteList.filter((element) => {
+            if (element === inputValue) {setHasText(false);}
             return element.includes(inputValue);
           })
         );
@@ -483,22 +485,9 @@ function AutoComplete() {
 }
 ```
 
-<br><p>input태그 말고 다른곳을 클릭한 경우에, setHasText 함수를 이용해 false값을 주어, 자동완성 리스트가 없어지게 만들었습니다.</p>
-
-```
-function AutoComplete() {
-  ...
-  const onBlur = () => {
-    setHasText(false);
-  };
-  ...
-}
-```
-
 <br><p>input에 값이 입력된 경우에 inputChange함수와 dropDownKeyControl함수가 실행이 됩니다. </p>
 <p>inputChange는 input입력값을 inputValue변수에 넣는 메소드이며, value={inputValue} 코드를 통해 inputValue를 UI화면상에서 input창에 표시됩니다.</p>
 <p>dropDownKeyControl 화살표키로 자동완성을 선택할 수 있는 메소드입니다.</p>
-<p>onBlur는 input태그 말고 다른곳을 클릭한 경우 자동완성 리스트가 표시되는 것을 방지합니다.</p>
 <p>삭제태그를 클릭한 경우에 deleteBtnClick 메서드가 실행되어 input값을 비워 줍니다.</p>
 
 ```
@@ -512,9 +501,8 @@ function AutoComplete() {
           onChange={inputChange}
           onKeyUp={inputChange}
           onKeyDown={dropDownKeyControl}
-          onBlur={onBlur}
         />
-        <div className={AutoCompleteStyle.deleteBtn} onClick={deleteBtnClick}>
+        <div className={AutoCompleteStyle.deleteBtn}>
           &times;
         </div>
       </div>
@@ -545,6 +533,7 @@ function AutoComplete() {
 <br>
 
 ## ClickToEdit.js
+<img src='https://user-images.githubusercontent.com/88726990/152976876-9268bede-e45e-4a7d-be63-b5c65f98ba90.gif'/>
 <p>MyInput 컴포넌트를 생성하여 ClickToEdit 컴포넌트의 자식 컴포넌트로 사용합니다.</p>
 <p>value를 인수로 받는데, 이는 name값 또는 age값이고, changeValue는 name값과 age값을 변경하는 함수입니다.</p>
 <p>컴포넌트를 2개로 구분하여, 코드의 가독성을 높였습니다.</p>

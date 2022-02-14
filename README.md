@@ -675,36 +675,31 @@ function MyInput({ value, changeValue }) {
 }
 ```
 
-<br><p><label>태그를 사용하여 input안에 입력된 문자없이 input태그를 클릭해도 수정이 활성화 됩니다.</p>
+<br><p>부모 컴포넌트에서 받은 props(title)을 UI로 표시하도록 {title}을 작성했습니다.</p>
 <p><input>태그 이외의 다른곳을 클릭한다면, EditOffClick메서드가 실행되어 수정이 비활성화 됩니다.</p>
 <p>키보드가 눌렸다가 떼지면서 inputEnter가 실행되어, 입력값이 엔터키와 빈 문자열이 입력되었을 경우에 EditOffClick 메서드를 실행하여 수정을 비활성화합니다.</p>
-<p>나머지 className은 해당 태그의 CSS를 적용시키기위해 사용했다.</p>
+<p>className은 해당 태그의 CSS를 적용시키기위해 사용했습니다.</p>
 
 ```
-function MyInput({ value, changeValue }) {
+function MyInput({ value, changeValue, title }) {
   ...
   return (
-      <label
+    <div className={ClickToEditStyle.inputView}>
+      <div>{title}</div>
+      <input
+        type="text"
+        value={newValue}
+        onClick={editOnClick}
+        onBlur={editOffClick} //input이외에 다른곳을 클릭하면 onBlur이벤트함수가 실행된다.
+        onChange={handleInputChange}
+        onKeyUp={(event) => {
+          inputEnter(event);
+        }}
         className={`${ClickToEditStyle.inputBox} ${
           editOn ? ClickToEditStyle.focused : ""
         }`}
-        onClick={editOnClick}
-      >
-        {editOn ? (
-          <input
-            type="text"
-            value={newValue}
-            onBlur={EditOffClick}
-            onChange={handleInputChange}
-            onKeyUp={(event) => {
-              inputEnter(event);
-            }}
-            className={ClickToEditStyle.inputEdit}
-          />
-        ) : (
-          <div>{newValue}</div>
-        )}
-      </label>
+      />
+    </div>
 ```
 
 <br><p>화면에 표시할 초기값으로 Default객체를 생성합니다.</p>
@@ -724,26 +719,43 @@ function ClickToEdit() {
 }
 ```
 
-<br><p>name값과 MyInput의 value값인 newName(처음 실행하였다면 '이동규' 값을 가진다.)을 setName함수의 인수로 넣은값을, MyInput컴포넌트의 props로 넘겨줍니다.</p>
+<br><p>부모 컴포넌트에서 name과 age를 표시할 데이터를 props(value)로 받습니다.</p>
+<p>받은 value를 리스트로 변환하고, for 반복문과 join함수를 사용하여 화면에 표시합니다.</p>
+
+```
+function SubTitle({ value }) {
+  const value_list = value.split(",");
+  let arr = [];
+  for (let i = 0; i < value_list.length; i += 2) {
+    arr.push(`${value_list[i]} : ${value_list[i + 1]}`);
+  }
+
+  return (
+    <div className={ClickToEditStyle.inputView}>
+      <div className={ClickToEditStyle.view}>{arr.join(" / ")}</div>
+    </div>
+  );
+}
+```
+
+<br><p>MyInput 컴포넌트에는 title, value 값을 props로 넘겨줍니다.</p>
+<p>input의 입력값이 변하면(changeValue) setName 함수로 인해, name값이 input의 입력값(newName)으로 변합니다.</p>
+<p>SubTitle 컴포넌트에는 props로 화면에 표시하고 싶은 문자열을 보내줍니다.(','로 나눈 이유는 SubTitle에서 split(','을 사용하여 배열로 변환하기 위함입니다.))</p>
 
 ```
 return (
   ...
-      <div className={ClickToEditStyle.inputView}>
-        <span>이름</span>
-        <MyInput value={name} changeValue={(newName) => setName(newName)} />
-      </div>
-      
-      <div className={ClickToEditStyle.inputView}>
-        <span>나이</span>
-        <MyInput value={age} changeValue={(newAge) => setAge(newAge)} />
-      </div>
-      
-      <div className={ClickToEditStyle.inputView}>
-        <div className={ClickToEditStyle.view}>
-          이름 : {name} / 나이 : {age}
-        </div>
-      </div>
+      <MyInput
+        title="이름"
+        value={name}
+        changeValue={(newName) => setName(newName)}
+      />
+      <MyInput
+        title="나이"
+        value={age}
+        changeValue={(newAge) => setAge(newAge)}
+      />
+      <SubTitle value={`이름,${name},나이,${age}`} />
   ...
   );
 ```

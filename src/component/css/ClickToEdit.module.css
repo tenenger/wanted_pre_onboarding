@@ -19,10 +19,8 @@
 }
 .inputBox {
   text-align: center;
-  display: inline-block;
-  min-width: 200px;
   height: 35px;
-  line-height: 35px;
+  min-width: 200px;
   border: 1px #bbb dashed;
   border-radius: 10px;
   margin-left: 1rem;
@@ -30,15 +28,6 @@
 }
 .inputBox.focused {
   border: 1px solid #4000c7;
-}
-.inputEdit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  display: inline-block;
-  width: 150px;
-  height: 30px;
 }
 .inputView {
   display: flex;

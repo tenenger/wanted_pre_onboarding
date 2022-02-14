@@ -50,3 +50,15 @@
   left: 27px;
   transition: 0.5s;
 }
+@media (max-width: 800px) {
+  .outer {
+    width: 500px;
+    height: 400px;
+  }
+}
+@media (max-width: 500px) {
+  .outer {
+    width: 300px;
+    height: 300px;
+  }
+}

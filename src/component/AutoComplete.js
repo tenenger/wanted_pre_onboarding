@@ -26,7 +26,9 @@ function DropDown({ dropDownOptions, autoCompleteClick, selectedOptionIdx }) {
           key={idx}
           onClick={() => autoCompleteClick(item)}
           className={
-            selectedOptionIdx === idx && `${AutoCompleteStyle.selectedOption}`
+            selectedOptionIdx === idx
+              ? `${AutoCompleteStyle.selectedOption}`
+              : ""
           }
         >
           {item}

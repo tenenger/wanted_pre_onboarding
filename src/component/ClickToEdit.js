@@ -31,7 +31,7 @@ function MyInput({ value, changeValue }) {
   return (
     <div
       className={`${ClickToEditStyle.inputBox} ${
-        editOn && `${ClickToEditStyle.focused}`
+        editOn ? ClickToEditStyle.focused : ""
       }`}
       onClick={editOnClick}
     >

@@ -32,3 +32,8 @@ ul {
   align-items: center;
   justify-content: center;
 }
+@media (max-width: 500px) {
+  body {
+    font-size: 17px;
+  }
+}

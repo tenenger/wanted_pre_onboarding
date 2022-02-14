@@ -39,7 +39,7 @@ function Tab() {
         {tabMenu.map((item, idx) => (
           <div
             className={`${TabStyle.menu} 
-            ${idx === currentIdx && `${TabStyle.focused}`}`}
+            ${idx === currentIdx ? TabStyle.focused : ""}`}
             onClick={() => contentChangeIdx(idx)}
             key={item.tab}
           >

@@ -12,12 +12,12 @@ function Toggle() {
       <div className={toggleStyle.toggleContainer} onClick={toggleTrueFalse}>
         <div
           className={` ${toggleStyle.toggle} ${
-            toggleOn && toggleStyle.togglecheck
+            toggleOn ? toggleStyle.togglecheck : ""
           }`}
         />
         <div
           className={`${toggleStyle.toggleCircle} ${
-            toggleOn && `${toggleStyle.togglecheck}`
+            toggleOn ? toggleStyle.togglecheck : ""
           }`}
         />
       </div>

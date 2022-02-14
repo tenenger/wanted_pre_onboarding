@@ -35,7 +35,7 @@ Demo: https://wanted-pre-onboarding-ldg.netlify.app/
 <p>그래서 CSS파일에 focused{background...} style 코드를 작성했더니, 정상적으로 className에 focused가 붙었고, style이 적용이 되었습니다.</p>
 
 ```
-className={`${TabStyle.menu} ${idx === currentIdx && `${TabStyle.focused}`}`}     // 해당 코드
+className={`${TabStyle.menu} ${idx === currentIdx ? TabStyle.focused : ""}`}     // 해당 코드
 onClick={() => contentChangeIdx(idx)}
 key={item.tab}
 ```
@@ -151,6 +151,11 @@ key={item.tab}
     };
 ```
 
+## 기타(알게된 점)
+### className에는 논리연산자말고 삼항연산자로 사용하기
+<p>논리연산자를 사용할시에 className에 의도치않게 false나 true값을 가질 수 있기때문이다.</p>
+
+
 <br><br>
 
 # 코드 리뷰
@@ -163,17 +168,18 @@ key={item.tab}
 const [toggleOn, setToggleOn] = useState(false);
 ```
 
-<br><p>활성화된 경우(true)와 비활성화 된 경우(false)를, 논리연산자를 활용하여 코드를 구현했습니다.</p>
-<p>활성화(true)된 경우 togglecheck CSS으로 인해 원모양이 오른쪽으로 이동하고, 비활성화(false)된 경우에는 원모양이 왼쪽으로 이동한다.</p>
+<br><p>활성화된 경우(true)와 비활성화 된 경우(false)를, 삼항연산자를 활용하여 코드를 구현했습니다.</p>
+<p>논리연산자를 사용할 경우에 콘솔창에 삼항연산자를 사용하라는 권고 메세지가 나오기때문에 삼항연산자를 사용했습니다.</p>
+<p>활성화(true)된 경우 togglecheck CSS으로 인해 원모양이 오른쪽으로 이동하고, 비활성화(false)된 경우에는 원모양이 왼쪽으로 이동합니다.</p>
 
 ```
 ...
   <div className={` ${toggleStyle.toggle} ${
-    toggleOn && toggleStyle.togglecheck}`
+    toggleOn ? toggleStyle.togglecheck : ""}`
   }/>
   <div
     className={`${toggleStyle.toggleCircle} ${
-      toggleOn && `${toggleStyle.togglecheck}`
+      toggleOn ? toggleStyle.togglecheck : ""
     }`}
   />
 ...
@@ -281,7 +287,7 @@ return (
   {tabMenu.map((item, idx) => (
     <div
       className={`${TabStyle.menu} 
-      ${idx === currentIdx && `${TabStyle.focused}`}`}
+      ${idx === currentIdx ? TabStyle.focused : ""}`}
       onClick={() => contentChangeIdx(idx)}
       key={item.tab}
     >
@@ -443,7 +449,7 @@ function DropDown({ dropDownOptions, autoCompleteClick, selectedOptionIdx }) {
           key={idx}
           onClick={() => autoCompleteClick(item)}
           className={
-            selectedOptionIdx === idx && `${AutoCompleteStyle.selectedOption}`
+            selectedOptionIdx === idx ? `${AutoCompleteStyle.selectedOption}` : ""
           }
         >
           {item}
@@ -680,7 +686,7 @@ function MyInput({ value, changeValue }) {
   return (
       <label
         className={`${ClickToEditStyle.inputBox} ${
-          editOn ? `${ClickToEditStyle.focused}` : ""
+          editOn ? ClickToEditStyle.focused : ""
         }`}
         onClick={editOnClick}
       >
